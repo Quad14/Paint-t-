@@ -11,27 +11,28 @@ import javafx.stage.Stage;
 
 public class GUI {
 
-    public int sceneX = 1000;
-    public int sceneY = 500;
+    public static int sceneX = 1000;
+    public static int sceneY = 500;
     public static boolean saved = true;
     public static boolean fileOpened = false;
-    Canvas blankCanvas = new Canvas(sceneX, sceneY);
+    public static Canvas blankCanvas = new Canvas(sceneX, sceneY);
     VBox vbox = new VBox();                       //New vertical layout box
-    public Stack canvasStack = new Stack();
-    public Stack redoStack = new Stack();
-
-
+    public static Stack canvasStack = new Stack();
+    public static Stack redoStack = new Stack();
+    public static StackPane stackPane = new StackPane();
+    public static Canvas tempCanvas = new Canvas(sceneX, sceneY);
+    public static GraphicsContext tempgc = tempCanvas.getGraphicsContext2D();
     public void initialize(Stage mainStage) {
+
+        //Canvas tempCanvas = new Canvas(sceneX, sceneY);
         
-        Canvas tempCanvas = new Canvas(sceneX, sceneY);
-        GraphicsContext tempgc = tempCanvas.getGraphicsContext2D();
-        StackPane stackPane = new StackPane();
+        //StackPane stackPane = new StackPane();
         Scene scene = new Scene(vbox, sceneX, sceneY);//New scene
         Menus menus = new Menus();
         MainTools mainTools = new MainTools();
         DrawTools drawTools = new DrawTools();
-        menus.MainMenu(scene, mainTools, stackPane, tempCanvas, tempgc);
-        menus.DrawMenu(scene, drawTools, stackPane, tempCanvas, tempgc);
+        menus.MainMenu(scene, mainTools);
+        menus.DrawMenu(scene, drawTools);
 
         mainStage.setTitle("Pain(t)");
         mainStage.setScene(scene);

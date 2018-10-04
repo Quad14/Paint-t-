@@ -36,14 +36,14 @@ public class MainTools extends Menus {
     FileChooser.ExtensionFilter PNG = new FileChooser.ExtensionFilter("*.png", "*.png");//Sets the extension type to .png
     FileChooser.ExtensionFilter BMP = new FileChooser.ExtensionFilter("*.bmp", "*.bmp");//Sets the extension type to .bmp
 
-    public void MainMenu(StackPane stackPane) {
+    public void MainMenu() {
         iv.setFitHeight(sceneY);
         iv.setFitWidth(sceneX);
         stackPane.getChildren().addAll(iv);
         fileChooser.getExtensionFilters().addAll(JPG, PNG, BMP); //Sets the types for the filechooser
     }
 
-    public void open(Scene scene, StackPane stackPane) {
+    public void open(Scene scene) {
         saved = false;
         fileOpened = true;
         fileChooser.getExtensionFilters().addAll(JPG);
@@ -60,7 +60,7 @@ public class MainTools extends Menus {
         scene.getHeight();
     }
 
-    public void save(Scene scene, Stack canvasStack, StackPane stackPane) {                //Handles the saving of the image
+    public void save(Scene scene) {                //Handles the saving of the image
         if (path.equals("")) {                      //If no picture has been loaded
             System.out.println("No image loaded");
         } else {
@@ -80,13 +80,13 @@ public class MainTools extends Menus {
         }
     }
 
-    public void saveAs(Scene scene, Stack canvasStack, StackPane stackPane) {
+    public void saveAs(Scene scene) {
         fileToOpen = fileChooser.showSaveDialog(null);//Prompts the user for a file
         path = fileToOpen.toURI().toString();       //Sets the public path to the file the user selected
-        save(scene, canvasStack, stackPane);
+        save(scene);
     }
 
-    public void quit(Scene scene, Stack canvasStack, StackPane stackPane) {
+    public void quit(Scene scene) {
         if (!saved) {
             Stage dialog = new Stage();
             VBox vQuitBox = new VBox();
@@ -98,9 +98,9 @@ public class MainTools extends Menus {
             vQuitBox.getChildren().addAll(text, hQuitBox);
             saveButton.setOnAction((ActionEvent t) -> {       //Handles clicking the save as button
                 if (path.equals("")) {
-                    saveAs(scene, canvasStack, stackPane);
+                    saveAs(scene);
                 } else {
-                    save(scene, canvasStack, stackPane);
+                    save(scene);
                 }
             });
             quitButton.setOnAction((ActionEvent t) -> {       //Handles clicking the save as button
@@ -114,7 +114,7 @@ public class MainTools extends Menus {
         }
     }
 
-    public void undo(Stack canvasStack, Stack redoStack, Scene scene) {
+    public void undo() {
         try {
             Canvas undoCanvas = Canvas.class.cast(canvasStack.pop());
             redoStack.push(undoCanvas);
@@ -131,7 +131,7 @@ public class MainTools extends Menus {
         }
     }
 
-    public void redo(Stack canvasStack, Stack redoStack, Scene scene) {
+    public void redo(Scene scene) {
         try {
             Canvas redoCanvas = Canvas.class.cast(redoStack.pop());
             canvasStack.push(redoCanvas);

@@ -21,7 +21,7 @@ import javafx.scene.paint.Color;
 
 public class Menus extends GUI {
 
-    public void MainMenu(Scene scene, MainTools mainTools, StackPane stackPane, Canvas tempCanvas, GraphicsContext tempgc) {
+    public void MainMenu(Scene scene, MainTools mainTools) {
         
         MenuBar menu = new MenuBar();                 //Creates the menu bar
         Menu file = new Menu("File");                 //Creates the file label
@@ -61,22 +61,22 @@ public class Menus extends GUI {
 
         ((VBox) scene.getRoot()).getChildren().addAll(menu);
         open.setOnAction((ActionEvent t) -> {         //Handles clicking the open button
-            mainTools.open(scene, stackPane);
+            mainTools.open(scene);
         });
         save.setOnAction((ActionEvent t) -> {         //Handles clicking the save button
-            mainTools.save(scene, canvasStack, stackPane);
+            mainTools.save(scene);
         });
         saveAs.setOnAction((ActionEvent t) -> {       //Handles clicking the save as button
-            mainTools.saveAs(scene, canvasStack, stackPane);
+            mainTools.saveAs(scene);
         });
         exit.setOnAction((ActionEvent t) -> {         //Handles clicking the exit button
-            mainTools.quit(scene, canvasStack, stackPane);
+            mainTools.quit(scene);
         });
         undo.setOnAction((ActionEvent t) -> {         //Handles clicking the undo button
-            mainTools.undo(canvasStack, redoStack, scene);
+            mainTools.undo();
         });
         redo.setOnAction((ActionEvent t) -> {         //Handles clicking the undo button
-            mainTools.redo(canvasStack, redoStack, scene);
+            mainTools.redo(scene);
         });
         
         save.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
@@ -85,7 +85,7 @@ public class Menus extends GUI {
         redo.setAccelerator(new KeyCodeCombination(KeyCode.Y, KeyCombination.CONTROL_DOWN));
     }
 
-    public void DrawMenu(Scene scene, DrawTools drawTools, StackPane stackPane, Canvas tempCanvas, GraphicsContext tempgc) {
+    public void DrawMenu(Scene scene, DrawTools drawTools) {
 
         ColorPicker colorChooser = new ColorPicker(Color.BLACK);
         
@@ -125,11 +125,11 @@ public class Menus extends GUI {
         
         //Handles clicking the line button
         line.setOnAction((ActionEvent t) -> {
-            drawTools.line(canvasStack, scene, colorChooser, stackPane, tempCanvas, tempgc);
+            drawTools.line(scene, colorChooser);
         });
         //Handles clicking the free hand button
         freeHand.setOnAction((ActionEvent t) -> {
-            drawTools.freeHand(canvasStack, scene, colorChooser, stackPane);
+            drawTools.freeHand(scene, colorChooser);
         });
         //Handles clicking the fill button
         fill.setOnAction((event) -> {
@@ -144,22 +144,22 @@ public class Menus extends GUI {
         });
         //Handles clicking the wire square button
         wireSquare.setOnAction((event) -> {
-            drawTools.wireSquare(canvasStack, scene, colorChooser, stackPane, tempCanvas, tempgc);
+            drawTools.wireSquare(scene, colorChooser);
         });
         //Handles clicking the wire circle button
         wireCircle.setOnAction((event) -> {
-            drawTools.wireCircle(canvasStack, scene, colorChooser, stackPane, tempCanvas, tempgc);
+            drawTools.wireCircle(scene, colorChooser);
         });
         //Handles clicking the solid square button
         solidSquare.setOnAction((event) -> {
-            drawTools.solidSquare(canvasStack, scene, colorChooser, stackPane, tempCanvas, tempgc);
+            drawTools.solidSquare(scene, colorChooser);
         });
         //Handles clicking the solid circle button
         solidCircle.setOnAction((event) -> {
-            drawTools.solidCircle(canvasStack, scene, colorChooser, stackPane, tempCanvas, tempgc);
+            drawTools.solidCircle(scene, colorChooser);
         });
         cutandMove.setOnAction((event) -> {
-            drawTools.cut(scene, canvasStack, stackPane, tempCanvas, tempgc);
+            drawTools.cut(scene);
         });
     }
 }

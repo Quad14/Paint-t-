@@ -22,7 +22,7 @@ public class DrawTools extends Menus {
 
     int widthInt = 1;
 
-    public void line(Stack canvasStack, Scene scene, ColorPicker colorChooser, StackPane stackPane, Canvas tempCanvas, GraphicsContext tempgc) {
+    public void line(Scene scene, ColorPicker colorChooser) {
         Canvas newCanvas = new Canvas(sceneX, sceneY);
 
         GraphicsContext gc = newCanvas.getGraphicsContext2D();
@@ -58,7 +58,7 @@ public class DrawTools extends Menus {
         saved = false;
     }
 
-    public void freeHand(Stack canvasStack, Scene scene, ColorPicker colorChooser, StackPane stackPane) {
+    public void freeHand(Scene scene, ColorPicker colorChooser) {
         Canvas newCanvas = new Canvas(sceneX, sceneY);
 
         GraphicsContext gc = newCanvas.getGraphicsContext2D();
@@ -83,7 +83,7 @@ public class DrawTools extends Menus {
         saved = false;
     }
 
-    public void wireSquare(Stack canvasStack, Scene scene, ColorPicker colorChooser, StackPane stackPane, Canvas tempCanvas, GraphicsContext tempgc) {
+    public void wireSquare(Scene scene, ColorPicker colorChooser) {
         Canvas newCanvas = new Canvas(sceneX, sceneY);
 
         GraphicsContext gc = newCanvas.getGraphicsContext2D();
@@ -135,7 +135,7 @@ public class DrawTools extends Menus {
         saved = false;
     }
 
-    public void wireCircle(Stack canvasStack, Scene scene, ColorPicker colorChooser, StackPane stackPane, Canvas tempCanvas, GraphicsContext tempgc) {
+    public void wireCircle(Scene scene, ColorPicker colorChooser) {
         Canvas newCanvas = new Canvas(sceneX, sceneY);
 
         GraphicsContext gc = newCanvas.getGraphicsContext2D();
@@ -186,7 +186,7 @@ public class DrawTools extends Menus {
         saved = false;
     }
 
-    public void solidSquare(Stack canvasStack, Scene scene, ColorPicker colorChooser, StackPane stackPane, Canvas tempCanvas, GraphicsContext tempgc) {
+    public void solidSquare(Scene scene, ColorPicker colorChooser) {
         Canvas newCanvas = new Canvas(sceneX, sceneY);
 
         GraphicsContext gc = newCanvas.getGraphicsContext2D();
@@ -239,7 +239,7 @@ public class DrawTools extends Menus {
         saved = false;
     }
 
-    public void solidCircle(Stack canvasStack, Scene scene, ColorPicker colorChooser, StackPane stackPane, Canvas tempCanvas, GraphicsContext tempgc) {
+    public void solidCircle(Scene scene, ColorPicker colorChooser) {
         Canvas newCanvas = new Canvas(sceneX, sceneY);
 
         GraphicsContext gc = newCanvas.getGraphicsContext2D();
@@ -298,7 +298,7 @@ public class DrawTools extends Menus {
         });
     }
 
-    public void cut(Scene scene, Stack canvasStack, StackPane stackPane, Canvas tempCanvas, GraphicsContext tempgc) {
+    public void cut(Scene scene) {
         Canvas newCanvas = new Canvas(sceneX, sceneY);
 
         GraphicsContext gc = newCanvas.getGraphicsContext2D();
