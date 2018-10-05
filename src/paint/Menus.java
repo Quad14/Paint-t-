@@ -15,12 +15,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class Menus extends GUI {
-
+    public static ColorPicker colorChooser = new ColorPicker(Color.BLACK);
     public void MainMenu(Scene scene, MainTools mainTools) {
         
         MenuBar menu = new MenuBar();                 //Creates the menu bar
@@ -87,7 +86,7 @@ public class Menus extends GUI {
 
     public void DrawMenu(Scene scene, DrawTools drawTools) {
 
-        ColorPicker colorChooser = new ColorPicker(Color.BLACK);
+        
         
         MenuBar drawBar = new MenuBar();
         Menu type = new Menu("Type");
@@ -99,19 +98,30 @@ public class Menus extends GUI {
         MenuItem fill = new MenuItem("Fill", new ImageView(new Image("resources/fill.png", 25.0, 25.0, true, true, true)));
         MenuItem wireSquare = new MenuItem("Wire Square", new ImageView(new Image("resources/wiresquare.png", 25.0, 25.0, true, true, true)));
         MenuItem wireCircle = new MenuItem("Wire Circle", new ImageView(new Image("resources/wirecircle.png", 25.0, 25.0, true, true, true)));
+        MenuItem wireRoundSquare = new MenuItem("Wire Round Square", new ImageView(new Image("resources/wireroundsquare.png", 25.0, 25.0, true, true, true)));
         MenuItem solidSquare = new MenuItem("Solid Square", new ImageView(new Image("resources/solidsquare.png", 25.0, 25.0, true, true, true)));
         MenuItem solidCircle = new MenuItem("Solid Circle", new ImageView(new Image("resources/solidcircle.png", 25.0, 25.0, true, true, true)));
         MenuItem cutandMove = new MenuItem("Cut and Move", new ImageView(new Image("resources/cutandmove.png", 25.0, 25.0, true, true, true)));
-
+        MenuItem eraser = new MenuItem("Eraser", new ImageView(new Image("resources/eraser.png", 25.0, 25.0, true, true, true)));
+        MenuItem solidRoundSquare = new MenuItem("Solid Round Square", new ImageView(new Image("resources/solidroundsquare.png", 25.0, 25.0, true, true, true)));
+        MenuItem dropper = new MenuItem("Color Dropper", new ImageView(new Image("resources/dropper.png", 25.0, 25.0, true, true, true)));
+        Menu text = new Menu("Text", new ImageView(new Image("resources/text.png", 25.0, 25.0, true, true, true)));
+        
         CustomMenuItem widthController = new CustomMenuItem();
         TextField inputWidth = new TextField();
         widthController.setHideOnClick(false);
         widthController.setContent(inputWidth);
         width.getItems().add(widthController);
+        
+        CustomMenuItem textController = new CustomMenuItem();
+        TextField inputText = new TextField();
+        textController.setHideOnClick(false);
+        textController.setContent(inputText);
+        text.getItems().add(textController);
 
         options.getItems().addAll(fill, width, cutandMove);
         drawBar.getMenus().addAll(type, options);
-        type.getItems().addAll(line, freeHand, wireSquare, wireCircle, solidSquare, solidCircle);//Puts line and free hand under type
+        type.getItems().addAll(eraser, line, freeHand, wireSquare, wireCircle, wireRoundSquare, solidSquare, solidCircle, solidRoundSquare, text, dropper);//Puts line and free hand under type
         GraphicsContext blankCanvasGraphicsContext = blankCanvas.getGraphicsContext2D();
         blankCanvasGraphicsContext.setFill(Color.WHITE);
         blankCanvasGraphicsContext.fillRect(0, 0, sceneX, sceneY);
@@ -125,11 +135,11 @@ public class Menus extends GUI {
         
         //Handles clicking the line button
         line.setOnAction((ActionEvent t) -> {
-            drawTools.line(scene, colorChooser);
+            drawTools.line(scene);
         });
         //Handles clicking the free hand button
         freeHand.setOnAction((ActionEvent t) -> {
-            drawTools.freeHand(scene, colorChooser);
+            drawTools.freeHand(scene);
         });
         //Handles clicking the fill button
         fill.setOnAction((event) -> {
@@ -138,28 +148,44 @@ public class Menus extends GUI {
             fillCanvas.getGraphicsContext2D().setStroke(colorChooser.getValue());
             fillCanvas.getGraphicsContext2D().fill();
         });
+        text.setOnAction((event) -> {
+            drawTools.text(scene, inputText);
+        });
         //Handles clicking the width button
         width.setOnAction((event) -> {
             drawTools.widthControl(inputWidth);
         });
         //Handles clicking the wire square button
         wireSquare.setOnAction((event) -> {
-            drawTools.wireSquare(scene, colorChooser);
+            drawTools.wireSquare(scene);
         });
         //Handles clicking the wire circle button
         wireCircle.setOnAction((event) -> {
-            drawTools.wireCircle(scene, colorChooser);
+            drawTools.wireCircle(scene);
         });
         //Handles clicking the solid square button
         solidSquare.setOnAction((event) -> {
-            drawTools.solidSquare(scene, colorChooser);
+            drawTools.solidSquare(scene);
         });
         //Handles clicking the solid circle button
         solidCircle.setOnAction((event) -> {
-            drawTools.solidCircle(scene, colorChooser);
+            drawTools.solidCircle(scene);
+        });
+        eraser.setOnAction((event) -> {
+            drawTools.eraser(scene);
+        });
+        solidRoundSquare.setOnAction((event) -> {
+            drawTools.solidRoundSquare(scene);
+        });
+        wireRoundSquare.setOnAction((event) -> {
+            drawTools.wireRoundSquare(scene);
         });
         cutandMove.setOnAction((event) -> {
             drawTools.cut(scene);
         });
+        dropper.setOnAction((event) -> {
+            drawTools.dropper();
+        });
+        
     }
 }

@@ -1,28 +1,29 @@
 package paint;
 
 import static java.lang.Math.abs;
-import java.util.Stack;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
+import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.text.Font;
+import static paint.GUI.tempgc;
 
 public class DrawTools extends Menus {
 
     int widthInt = 1;
+    String textString = "";
 
-    public void line(Scene scene, ColorPicker colorChooser) {
+    public void line(Scene scene) {
         Canvas newCanvas = new Canvas(sceneX, sceneY);
 
         GraphicsContext gc = newCanvas.getGraphicsContext2D();
@@ -58,7 +59,7 @@ public class DrawTools extends Menus {
         saved = false;
     }
 
-    public void freeHand(Scene scene, ColorPicker colorChooser) {
+    public void freeHand(Scene scene) {
         Canvas newCanvas = new Canvas(sceneX, sceneY);
 
         GraphicsContext gc = newCanvas.getGraphicsContext2D();
@@ -83,7 +84,31 @@ public class DrawTools extends Menus {
         saved = false;
     }
 
-    public void wireSquare(Scene scene, ColorPicker colorChooser) {
+    public void eraser(Scene scene) {
+        Canvas newCanvas = new Canvas(sceneX, sceneY);
+
+        GraphicsContext gc = newCanvas.getGraphicsContext2D();
+        canvasStack.push(newCanvas);
+
+        ((VBox) scene.getRoot()).getChildren().removeAll(stackPane);
+        stackPane.getChildren().removeAll(canvasStack);
+        stackPane.getChildren().addAll(canvasStack);
+        ((VBox) scene.getRoot()).getChildren().addAll(stackPane);
+        gc.setStroke(Color.WHITE);
+        gc.setLineWidth(widthInt);
+
+        newCanvas.setOnMouseDragged((MouseEvent event2) -> {
+            gc.lineTo(event2.getX(), event2.getY());
+            gc.stroke();
+        });
+        newCanvas.setOnMouseReleased((MouseEvent event3) -> {
+            newCanvas.setOnMouseDragged(null);
+            newCanvas.setOnMouseReleased(null);
+        });
+        saved = false;
+    }
+
+    public void wireSquare(Scene scene) {
         Canvas newCanvas = new Canvas(sceneX, sceneY);
 
         GraphicsContext gc = newCanvas.getGraphicsContext2D();
@@ -135,7 +160,60 @@ public class DrawTools extends Menus {
         saved = false;
     }
 
-    public void wireCircle(Scene scene, ColorPicker colorChooser) {
+    public void wireRoundSquare(Scene scene) {
+        Canvas newCanvas = new Canvas(sceneX, sceneY);
+
+        GraphicsContext gc = newCanvas.getGraphicsContext2D();
+        canvasStack.push(newCanvas);
+
+        ((VBox) scene.getRoot()).getChildren().removeAll(stackPane);
+        stackPane.getChildren().removeAll(canvasStack);
+        stackPane.getChildren().addAll(canvasStack);
+        ((VBox) scene.getRoot()).getChildren().addAll(stackPane);
+        gc.setStroke(colorChooser.getValue());
+        gc.setFill(colorChooser.getValue());
+        gc.setLineWidth(widthInt);
+
+        tempgc.setStroke(colorChooser.getValue());
+        tempgc.setFill(colorChooser.getValue());
+        tempgc.setLineWidth(widthInt);
+        tempCanvas.toFront();
+
+        tempCanvas.setOnMousePressed((MouseEvent event) -> {
+            tempCanvas.setOnMouseDragged((MouseEvent event3) -> {
+                tempgc.clearRect(0, 0, sceneX, sceneY);
+                if ((event3.getX() > event.getX()) && (event3.getY() < event.getY())) {
+                    tempgc.strokeRoundRect(event.getX(), event3.getY(), event3.getX() - event.getX(), event.getY() - event3.getY(), 25.0, 25.0);
+                } else if ((event3.getX() < event.getX()) && (event3.getY() > event.getY())) {
+                    tempgc.strokeRoundRect(event3.getX(), event.getY(), event.getX() - event3.getX(), event3.getY() - event.getY(), 25.0, 25.0);
+                } else if ((event3.getX() < event.getX()) && (event3.getY() < event.getY())) {
+                    tempgc.strokeRoundRect(event3.getX(), event3.getY(), event.getX() - event3.getX(), event.getY() - event3.getY(), 25.0, 25.0);
+                } else {
+                    tempgc.strokeRoundRect(event.getX(), event.getY(), event3.getX() - event.getX(), event3.getY() - event.getY(), 25.0, 25.0);
+                }
+
+                tempCanvas.setOnMouseReleased((MouseEvent event2) -> {
+                    if ((event2.getX() > event.getX()) && (event2.getY() < event.getY())) {
+                        gc.strokeRoundRect(event.getX(), event2.getY(), event2.getX() - event.getX(), event.getY() - event2.getY(), 25.0, 25.0);
+                    } else if ((event2.getX() < event.getX()) && (event2.getY() > event.getY())) {
+                        gc.strokeRoundRect(event2.getX(), event.getY(), event.getX() - event2.getX(), event2.getY() - event.getY(), 25.0, 25.0);
+                    } else if ((event2.getX() < event.getX()) && (event2.getY() < event.getY())) {
+                        gc.strokeRoundRect(event2.getX(), event2.getY(), event.getX() - event2.getX(), event.getY() - event2.getY(), 25.0, 25.0);
+                    } else {
+                        gc.strokeRoundRect(event.getX(), event.getY(), event2.getX() - event.getX(), event2.getY() - event.getY(), 25.0, 25.0);
+                    }
+                    saved = false;
+                    tempgc.clearRect(0, 0, sceneX, sceneY);
+                    tempCanvas.setOnMouseDragged(null);
+                    tempCanvas.setOnMouseReleased(null);
+                });
+                tempCanvas.setOnMousePressed(null);
+            });
+        });
+        saved = false;
+    }
+
+    public void wireCircle(Scene scene) {
         Canvas newCanvas = new Canvas(sceneX, sceneY);
 
         GraphicsContext gc = newCanvas.getGraphicsContext2D();
@@ -186,7 +264,7 @@ public class DrawTools extends Menus {
         saved = false;
     }
 
-    public void solidSquare(Scene scene, ColorPicker colorChooser) {
+    public void solidSquare(Scene scene) {
         Canvas newCanvas = new Canvas(sceneX, sceneY);
 
         GraphicsContext gc = newCanvas.getGraphicsContext2D();
@@ -239,7 +317,60 @@ public class DrawTools extends Menus {
         saved = false;
     }
 
-    public void solidCircle(Scene scene, ColorPicker colorChooser) {
+    public void solidRoundSquare(Scene scene) {
+        Canvas newCanvas = new Canvas(sceneX, sceneY);
+
+        GraphicsContext gc = newCanvas.getGraphicsContext2D();
+        canvasStack.push(newCanvas);
+
+        ((VBox) scene.getRoot()).getChildren().removeAll(stackPane);
+        stackPane.getChildren().removeAll(canvasStack);
+        stackPane.getChildren().addAll(canvasStack);
+        ((VBox) scene.getRoot()).getChildren().addAll(stackPane);
+        gc.setStroke(colorChooser.getValue());
+        gc.setFill(colorChooser.getValue());
+        gc.setLineWidth(widthInt);
+
+        tempgc.setStroke(colorChooser.getValue());
+        tempgc.setFill(colorChooser.getValue());
+        tempgc.setLineWidth(widthInt);
+        tempCanvas.toFront();
+
+        tempCanvas.setOnMousePressed((MouseEvent event) -> {
+            tempCanvas.setOnMouseDragged((MouseEvent event3) -> {
+                tempgc.clearRect(0, 0, sceneX, sceneY);
+                if ((event3.getX() > event.getX()) && (event3.getY() < event.getY())) {
+                    tempgc.fillRoundRect(event.getX(), event3.getY(), event3.getX() - event.getX(), event.getY() - event3.getY(), 25.0, 25.0);
+                } else if ((event3.getX() < event.getX()) && (event3.getY() > event.getY())) {
+                    tempgc.fillRoundRect(event3.getX(), event.getY(), event.getX() - event3.getX(), event3.getY() - event.getY(), 25.0, 25.0);
+                } else if ((event3.getX() < event.getX()) && (event3.getY() < event.getY())) {
+                    tempgc.fillRoundRect(event3.getX(), event3.getY(), event.getX() - event3.getX(), event.getY() - event3.getY(), 25.0, 25.0);
+                } else {
+                    tempgc.fillRoundRect(event.getX(), event.getY(), event3.getX() - event.getX(), event3.getY() - event.getY(), 25.0, 25.0);
+                }
+
+                tempCanvas.setOnMouseReleased((MouseEvent event2) -> {
+                    if ((event2.getX() > event.getX()) && (event2.getY() < event.getY())) {
+                        gc.fillRoundRect(event.getX(), event2.getY(), event2.getX() - event.getX(), event.getY() - event2.getY(), 25.0, 25.0);
+                    } else if ((event2.getX() < event.getX()) && (event2.getY() > event.getY())) {
+                        gc.fillRoundRect(event2.getX(), event.getY(), event.getX() - event2.getX(), event2.getY() - event.getY(), 25.0, 25.0);
+                    } else if ((event2.getX() < event.getX()) && (event2.getY() < event.getY())) {
+                        gc.fillRoundRect(event2.getX(), event2.getY(), event.getX() - event2.getX(), event.getY() - event2.getY(), 25.0, 25.0);
+                    } else {
+                        gc.fillRoundRect(event.getX(), event.getY(), event2.getX() - event.getX(), event2.getY() - event.getY(), 25.0, 25.0);
+                    }
+                    saved = false;
+                    tempgc.clearRect(0, 0, sceneX, sceneY);
+                    tempCanvas.setOnMouseDragged(null);
+                    tempCanvas.setOnMouseReleased(null);
+                });
+                tempCanvas.setOnMousePressed(null);
+            });
+        });
+        saved = false;
+    }
+
+    public void solidCircle(Scene scene) {
         Canvas newCanvas = new Canvas(sceneX, sceneY);
 
         GraphicsContext gc = newCanvas.getGraphicsContext2D();
@@ -298,6 +429,47 @@ public class DrawTools extends Menus {
         });
     }
 
+    public void text(Scene scene, TextField inputText) {
+        inputText.setOnKeyPressed((KeyEvent ke) -> {
+            if (ke.getCode().equals(KeyCode.ENTER)) {
+                
+            }
+        });
+        textString = inputText.getText();
+        Canvas newCanvas = new Canvas(sceneX, sceneY);
+
+        GraphicsContext gc = newCanvas.getGraphicsContext2D();
+        canvasStack.push(newCanvas);
+
+        ((VBox) scene.getRoot()).getChildren().removeAll(stackPane);
+        stackPane.getChildren().removeAll(canvasStack);
+        stackPane.getChildren().addAll(canvasStack);
+        ((VBox) scene.getRoot()).getChildren().addAll(stackPane);
+        gc.setStroke(colorChooser.getValue());
+        gc.setFill(colorChooser.getValue());
+        Font font = new Font("Verdena", widthInt);
+        gc.setFont(font);
+        tempgc.setFont(font);
+
+        tempgc.setStroke(colorChooser.getValue());
+        //tempgc.setFill(colorChooser.getValue());
+        tempgc.setLineWidth(widthInt);
+        tempCanvas.toFront();
+
+        tempCanvas.setOnMouseMoved((MouseEvent event3) -> {
+            tempgc.clearRect(0, 0, sceneX, sceneY);
+            tempgc.strokeText(textString, event3.getX(), event3.getY());
+            tempCanvas.setOnMouseReleased((MouseEvent event2) -> {
+                gc.strokeText(textString, event2.getX(), event2.getY());
+                tempgc.clearRect(0, 0, sceneX, sceneY);
+                tempCanvas.setOnMouseMoved(null);
+                tempCanvas.setOnMouseReleased(null);
+            });
+            tempCanvas.setOnMousePressed(null);
+        });
+        saved = false;
+    }
+
     public void cut(Scene scene) {
         Canvas newCanvas = new Canvas(sceneX, sceneY);
 
@@ -324,13 +496,13 @@ public class DrawTools extends Menus {
                 }
                 tempCanvas.setOnMouseReleased((MouseEvent event2) -> {
                     SnapshotParameters snapParams = new SnapshotParameters();
-                    
+
                     int x = ((int) scene.getWidth() - sceneX) / 2;
                     int y = ((int) scene.getHeight() - (int) tempCanvas.getHeight()) / 2;
                     int firstEventX = (int) event.getX();
                     int firstEventY = (int) event.getY();
-                    int secondEventX = (int)event2.getX();
-                    int secondEventY = (int)event2.getY();
+                    int secondEventX = (int) event2.getX();
+                    int secondEventY = (int) event2.getY();
                     int thirdEventX = (int) event3.getX();
                     int thirdEventY = (int) event3.getY();
                     if (firstEventX > sceneX) {
@@ -386,7 +558,6 @@ public class DrawTools extends Menus {
                         //gc.fillRect(firstEventX, firstEventY, thirdEventX - firstEventX, thirdEventY - firstEventY); 
                     }
 
-
                     //snapParams.setViewport(new Rectangle2D(x + event.getX(), y + event.getY() - 25, width, height));
                     saved = false;
                     tempgc.clearRect(0, 0, sceneX, sceneY);
@@ -425,5 +596,22 @@ public class DrawTools extends Menus {
             tempCanvas.setOnMousePressed(null);
         });
         saved = false;
+    }
+
+    public void dropper() {
+        SnapshotParameters snapParams = new SnapshotParameters();
+        WritableImage wImage = new WritableImage(sceneX, sceneY);
+        PixelReader pixelReader = wImage.getPixelReader();
+        int x = ((int) stackPane.getWidth() - sceneX) / 2;
+        int y = ((int) stackPane.getHeight() - sceneY) / 2;
+        snapParams.setViewport(new Rectangle2D(x, y + 75, sceneX, sceneY));
+        tempCanvas.toFront();
+        stackPane.snapshot(snapParams, wImage);
+        tempCanvas.setOnMousePressed((MouseEvent event) -> {
+            System.out.println("Here ohhhh");
+            System.out.println(pixelReader.getColor((int)event.getX(), (int)event.getY()));
+            colorChooser.setValue(pixelReader.getColor((int)event.getX(), (int)event.getY()));
+            tempCanvas.setOnMousePressed(null);
+        });
     }
 }
