@@ -1,4 +1,4 @@
-package paint;
+package paintpkg;
 
 import static java.lang.Math.abs;
 import javafx.geometry.Rectangle2D;
@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
-import static paint.GUI.tempgc;
+import static paintpkg.GUI.tempgc;
 
 public class DrawTools extends Menus {
 

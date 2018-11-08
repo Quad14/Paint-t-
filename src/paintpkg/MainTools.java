@@ -1,4 +1,4 @@
-package paint;
+package paintpkg;
 
 import javafx.geometry.Rectangle2D;
 import java.awt.image.RenderedImage;

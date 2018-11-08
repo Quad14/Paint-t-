@@ -1,4 +1,4 @@
-package paint;
+package paintpkg;
 
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;

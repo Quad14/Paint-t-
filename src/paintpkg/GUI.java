@@ -1,4 +1,4 @@
-package paint;
+package paintpkg;
 
 import static java.lang.Boolean.TRUE;
 import java.util.Stack;
