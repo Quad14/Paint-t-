@@ -86,6 +86,8 @@ public class Menus extends GUI {
 
     public void DrawMenu(Scene scene, DrawTools drawTools) {
 
+        
+        
         MenuBar drawBar = new MenuBar();
         Menu type = new Menu("Type");
         Menu options = new Menu("Options");
