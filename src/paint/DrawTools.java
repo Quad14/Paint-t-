@@ -432,10 +432,9 @@ public class DrawTools extends Menus {
     public void text(Scene scene, TextField inputText) {
         inputText.setOnKeyPressed((KeyEvent ke) -> {
             if (ke.getCode().equals(KeyCode.ENTER)) {
-                
+                textString = inputText.getText();
             }
         });
-        textString = inputText.getText();
         Canvas newCanvas = new Canvas(sceneX, sceneY);
 
         GraphicsContext gc = newCanvas.getGraphicsContext2D();
