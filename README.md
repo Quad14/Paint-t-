@@ -6,4 +6,4 @@ Make sure you have java installed and then open the Paint.jar file.
 
 # Function
 This program allows the user to open and edit an image and then save it.
-![alt text](https://github.com/Quad14/Paint-t-/edit/master/Paint Running.PNG)
+![alt text](https://github.com/Quad14/Paint-t-/blob/master/Paint%20Running.PNG)
