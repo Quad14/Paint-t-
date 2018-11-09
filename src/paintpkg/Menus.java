@@ -17,14 +17,20 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
+/**
+ * This class creates the main menu and the draw menu on the GUI.
+ */
 public class Menus extends GUI {
+    //Set the default color to black
     public static ColorPicker colorChooser = new ColorPicker(Color.BLACK);
-    public void MainMenu(Scene scene, MainTools mainTools) {
+    public void MainMenu(Scene scene, MainTools mainTools, Stage mainStage) {
         
         MenuBar menu = new MenuBar();                 //Creates the menu bar
         Menu file = new Menu("File");                 //Creates the file label
-        Menu resizeMenu = new Menu("Resize Image");                 //Creates the edit label
+        Menu resizeMenu = new Menu("Resize Image");   //Creates the edit label
         Menu edit = new Menu("Edit");
         MenuItem open = new MenuItem("Open File", //Creates the open,save, save as and exit labels and adds the icons
                 new ImageView(new Image("resources/Open_Folder.png", 25.0, 25.0, true, true, true)));
@@ -34,29 +40,14 @@ public class Menus extends GUI {
                 new ImageView(new Image("resources/save_as.png", 25.0, 25.0, true, true, true)));
         MenuItem exit = new MenuItem("Exit",
                 new ImageView(new Image("resources/Exit.png", 25.0, 25.0, true, true, true)));
-        //MenuItem resize = new MenuItem("Resize", //Creates the open,save, save as and exit labels and adds the icons
-        //        new ImageView(new Image("resources/resize.png", 25.0, 25.0, true, true, true)));
         MenuItem undo = new MenuItem("Undo",
                 new ImageView(new Image("resources/undo.png", 25.0, 25.0, true, true, true)));
         MenuItem redo = new MenuItem("Redo",
                 new ImageView(new Image("resources/redo.png", 25.0, 25.0, true, true, true)));
-        /*
-        CustomMenuItem resizer = new CustomMenuItem();
-        CustomMenuItem resizer2 = new CustomMenuItem();
-        TextField xField = new TextField();
-        xField.setPromptText("X value");
-        TextField yField = new TextField();
-        yField.setPromptText("Y value");
-        resizer.setHideOnClick(false);
-        resizer.setContent(xField);
-        resizer2.setContent(yField);
-        resizeMenu.getItems().add(resizer);
-        resizeMenu.getItems().add(resizer2);
-         */
+
         menu.getMenus().addAll(file, edit);
-        file.getItems().addAll(open, save, saveAs, exit);     //Puts open,save and exit under file
+        file.getItems().addAll(open, save, saveAs, exit);//Puts open,save and exit under file
         edit.getItems().addAll(undo, redo);
-        //resizeMenu.getItems().addAll(resize);
 
         ((VBox) scene.getRoot()).getChildren().addAll(menu);
         open.setOnAction((ActionEvent t) -> {         //Handles clicking the open button
@@ -74,8 +65,11 @@ public class Menus extends GUI {
         undo.setOnAction((ActionEvent t) -> {         //Handles clicking the undo button
             mainTools.undo();
         });
-        redo.setOnAction((ActionEvent t) -> {         //Handles clicking the undo button
+        redo.setOnAction((ActionEvent t) -> {         //Handles clicking the redo button
             mainTools.redo(scene);
+        });
+        mainStage.setOnCloseRequest((WindowEvent event) -> {
+            mainTools.quit(scene);
         });
         
         save.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
@@ -83,13 +77,17 @@ public class Menus extends GUI {
         undo.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN));
         redo.setAccelerator(new KeyCodeCombination(KeyCode.Y, KeyCombination.CONTROL_DOWN));
     }
-
+/**
+ * This class creates the drawing tools menu and adds to items to it
+ * @param scene
+ * @param drawTools 
+ */
     public void DrawMenu(Scene scene, DrawTools drawTools) {
-
         MenuBar drawBar = new MenuBar();
         Menu type = new Menu("Type");
         Menu options = new Menu("Options");
-
+        
+        //Menu items and there images
         Menu width = new Menu("Width", new ImageView(new Image("resources/Width.png", 25.0, 25.0, true, true, true)));
         MenuItem line = new MenuItem("Line", new ImageView(new Image("resources/Line.png", 25.0, 25.0, true, true, true)));
         MenuItem freeHand = new MenuItem("Line", new ImageView(new Image("resources/freehand.png", 25.0, 25.0, true, true, true)));
@@ -123,6 +121,7 @@ public class Menus extends GUI {
         GraphicsContext blankCanvasGraphicsContext = blankCanvas.getGraphicsContext2D();
         blankCanvasGraphicsContext.setFill(Color.WHITE);
         blankCanvasGraphicsContext.fillRect(0, 0, sceneX, sceneY);
+        //Adds the canvases
         stackPane.getChildren().addAll(blankCanvas);
         stackPane.getChildren().addAll(canvasStack);
         stackPane.getChildren().addAll(tempCanvas);
@@ -169,21 +168,25 @@ public class Menus extends GUI {
         solidCircle.setOnAction((event) -> {
             drawTools.solidCircle(scene);
         });
+        //Handles clicking the eraser button
         eraser.setOnAction((event) -> {
             drawTools.eraser(scene);
         });
+        //Handles clicking the round square button
         solidRoundSquare.setOnAction((event) -> {
             drawTools.solidRoundSquare(scene);
         });
+        //Handles clicking the wire square button
         wireRoundSquare.setOnAction((event) -> {
             drawTools.wireRoundSquare(scene);
         });
+        //Handles clicking the cut and move button
         cutandMove.setOnAction((event) -> {
             drawTools.cut(scene);
         });
+        //Handles clicking the dropper button
         dropper.setOnAction((event) -> {
             drawTools.dropper();
         });
-        
     }
 }
