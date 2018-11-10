@@ -9,7 +9,7 @@ This program allows the user to open and edit an image and then save it.
 Here is an example of the cut and move feature as well as the different color feature.
 ![alt text](https://github.com/Quad14/Paint-t-/blob/master/Paint%20Running.PNG)
 Here is an example of the text adding feature
-![alt text](https://github.com/Quad14/Paint-t-/blob/master/Paint%20Text20%Snip.PNG)
+![alt text](https://github.com/Quad14/Paint-t-/blob/master/Paint%20Text%20Snip.PNG)
 
 # Release Notes for Pain(t)
 
