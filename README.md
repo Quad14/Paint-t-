@@ -9,7 +9,7 @@ This program allows the user to open and edit an image and then save it. Here is
 ![alt text](https://github.com/Quad14/Paint-t-/blob/master/Paint%20Running.PNG)
 
 # Release Notes for Pain(t)
-=====================================================================================
+
 Version Alpha 0.5  Date: 10/5/2018
 What's New
 •	Added Text
@@ -22,7 +22,7 @@ Whats a Known Issues
 What's next / you could add
 •	Fix bugs
 •	Better UI
-=====================================================================================
+
 Version Alpha 0.4  Date: 10/4/2018
 What's New
 •	Added cut and paste
@@ -35,7 +35,7 @@ What's next / you could add
 •	Add more shapes
 •	Add eraser
 •	Add Text
-=====================================================================================
+
 Version Alpha 0.3  Date: 9/21/2018
 What's New
 •	Added Width Control
@@ -52,7 +52,7 @@ What's next / you could add
 •	Add undo and redo
 •	Add preview draw
 •	Add copy and paste.
-=====================================================================================
+
 Version Alpha 0.2  Date: 9/14/2018
 What's New
 •	Added smart save
@@ -71,7 +71,7 @@ What's next / you could add
 •	Add more picture types to open and save
 •	Gray out Save Option when nothing is loaded
 •	Add line width selector
-=====================================================================================
+
 Version Alpha 0.1  Date: 9/6/2018
 What's New
 •	Added Menu Bar
@@ -84,4 +84,3 @@ Whats a Known Issues
 What's next / you could add
 •	Add more picture types to open and save
 •	Gray out Save Option when nothing is loaded
-
